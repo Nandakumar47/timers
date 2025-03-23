@@ -1,24 +1,9 @@
 import React from 'react';
-import {View, Text, Button, StyleSheet, FlatList, Alert} from 'react-native';
+import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {useTimer} from '../context/TimerContext';
-import {DownloadDirectoryPath, writeFile} from 'react-native-fs';
 
 const HistoryScreen = () => {
   const {state} = useTimer();
-
-  const exportHistory = async () => {
-    try {
-      const filePath = `${DownloadDirectoryPath}/timer_history.json`;
-      const jsonContent = JSON.stringify(state.completedTimers, null, 2);
-
-      await writeFile(filePath, jsonContent, 'utf8');
-
-      Alert.alert('Export Successful', `History exported to ${filePath}`);
-    } catch (error) {
-      console.error('Export Error:', error);
-      Alert.alert('Export Failed', 'An error occurred while exporting.');
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -34,8 +19,6 @@ const HistoryScreen = () => {
           </View>
         )}
       />
-
-      <Button title="Export History" onPress={exportHistory} />
     </View>
   );
 };
